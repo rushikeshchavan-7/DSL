@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: platform_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: platform
+      POSTGRES_PASSWORD: platform_dev_pass
+      POSTGRES_DB: platform_metadata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Automatically run schema migrations on first start
+      - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U platform -d platform_metadata"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./platform
+      dockerfile: Dockerfile
+    container_name: platform_api
+    restart: unless-stopped
+    ports:
+      - "5100:5100"
+    environment:
+      - ConnectionStrings__MetadataDb=Host=postgres;Port=5432;Database=platform_metadata;Username=platform;Password=platform_dev_pass
+      - Cors__AllowedOrigins__0=http://localhost:4200
+      - Cors__AllowedOrigins__1=http://localhost:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  studio:
+    build:
+      context: ./studio
+      dockerfile: Dockerfile
+    container_name: platform_studio
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

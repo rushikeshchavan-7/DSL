@@ -1,0 +1,53 @@
+.page { padding: 2rem; max-width: 1000px; margin: 0 auto; }
+
+.page-header {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;
+  h1 { margin: 0.25rem 0; }
+  .subtitle { color: var(--text-secondary); margin: 0; }
+}
+
+.back-link {
+  font-size: 0.875rem; color: var(--accent); text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+.fields-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.fields-table {
+  width: 100%; border-collapse: collapse;
+  th {
+    background: var(--surface-alt);
+    padding: 0.75rem 1rem; text-align: left;
+    font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border-light); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-hover); }
+  code { font-size: 0.85rem; background: var(--code-bg); padding: 0.15rem 0.4rem; border-radius: 4px; }
+}
+
+.order-cell { color: var(--text-muted); font-size: 0.8rem; width: 40px; }
+.actions-cell { display: flex; gap: 0.4rem; }
+.empty-row { text-align: center; color: var(--text-muted); padding: 2rem; }
+
+.type-badge {
+  display: inline-block; padding: 0.2rem 0.55rem; border-radius: 9999px;
+  font-size: 0.75rem; font-weight: 500;
+  &.type-string   { background: #e0f2fe; color: #0369a1; }
+  &.type-number   { background: #fef3c7; color: #92400e; }
+  &.type-boolean  { background: #f0fdf4; color: #166534; }
+  &.type-date     { background: #fdf2f8; color: #9d174d; }
+  &.type-enum     { background: #f5f3ff; color: #5b21b6; }
+}
+
+.required-badge  { font-size: 0.75rem; color: #dc2626; background: #fee2e2; padding: 0.15rem 0.5rem; border-radius: 9999px; }
+.optional-badge  { font-size: 0.75rem; color: var(--text-muted); background: var(--surface-alt); padding: 0.15rem 0.5rem; border-radius: 9999px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }

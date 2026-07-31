@@ -1,0 +1,27 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY ["src/Platform.Api/Platform.Api.csproj", "src/Platform.Api/"]
+COPY ["src/Platform.Domain/Platform.Domain.csproj", "src/Platform.Domain/"]
+COPY ["src/Platform.Metadata/Platform.Metadata.csproj", "src/Platform.Metadata/"]
+COPY ["src/Platform.Engine/Platform.Engine.csproj", "src/Platform.Engine/"]
+COPY ["src/Platform.Etl/Platform.Etl.csproj", "src/Platform.Etl/"]
+
+RUN dotnet restore "src/Platform.Api/Platform.Api.csproj"
+
+# Copy all source code and publish
+COPY src/ src/
+WORKDIR "/src/src/Platform.Api"
+RUN dotnet publish "Platform.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:5100
+EXPOSE 5100
+
+ENTRYPOINT ["dotnet", "Platform.Api.dll"]

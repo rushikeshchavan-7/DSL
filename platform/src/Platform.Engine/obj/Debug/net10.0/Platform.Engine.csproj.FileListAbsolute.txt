@@ -1,0 +1,17 @@
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Engine.deps.json
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Engine.dll
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Engine.pdb
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Domain.dll
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Metadata.dll
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Domain.pdb
+D:\Projects\DSL\platform\src\Platform.Engine\bin\Debug\net10.0\Platform.Metadata.pdb
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.csproj.AssemblyReference.cache
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.AssemblyInfoInputs.cache
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.AssemblyInfo.cs
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.csproj.CoreCompileInputs.cache
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.48AA1D8A.Up2Date
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.dll
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\refint\Platform.Engine.dll
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\Platform.Engine.pdb
+D:\Projects\DSL\platform\src\Platform.Engine\obj\Debug\net10.0\ref\Platform.Engine.dll

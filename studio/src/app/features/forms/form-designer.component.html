@@ -1,0 +1,220 @@
+<div class="designer-shell">
+
+  <!-- Header bar -->
+  <header class="designer-header">
+    <a class="back-link" [routerLink]="['/entities', form()?.entityId, 'forms']">← Forms</a>
+    <div class="designer-title">
+      <h2>{{ form()?.name }}</h2>
+      <span class="entity-badge">{{ entity()?.name }}</span>
+    </div>
+    <div class="designer-header-actions">
+      <button class="btn btn-outline" (click)="openAddSection()">+ Section</button>
+      <button class="btn" [class.btn-primary]="!previewMode()" [class.btn-outline]="previewMode()" (click)="togglePreview()">
+        {{ previewMode() ? 'Edit Mode' : '👁 Preview' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- Loading state -->
+  @if (loading()) {
+    <div class="designer-loading">Loading designer…</div>
+  }
+
+  @else if (!previewMode()) {
+    <!-- ── DESIGN MODE ── -->
+    <div class="designer-layout">
+
+      <!-- Left: Available Fields -->
+      <aside class="panel panel-fields">
+        <div class="panel-title">Available Fields</div>
+        <div class="panel-subtitle">Drag onto the canvas →</div>
+        <div cdkDropList
+             #availableList="cdkDropList"
+             [cdkDropListData]="availableFields()"
+             [cdkDropListConnectedTo]="['canvas-list']"
+             class="fields-palette">
+          @for (field of availableFields(); track field.fieldId) {
+            <div cdkDrag class="palette-item">
+              <span class="palette-type type-{{ field.dataType }}">{{ field.dataType[0].toUpperCase() }}</span>
+              <span class="palette-name">{{ field.label }}</span>
+              <span class="palette-machine">{{ field.name }}</span>
+            </div>
+          }
+          @empty {
+            <div class="palette-empty">All fields placed ✓</div>
+          }
+        </div>
+      </aside>
+
+      <!-- Center: Canvas -->
+      <main class="designer-canvas">
+
+        <!-- Sections -->
+        @for (section of sections(); track section.sectionId) {
+          <div class="canvas-section">
+            <div class="canvas-section-header">
+              <span class="section-title">{{ section.title }}</span>
+              <span class="section-cols">{{ section.columns }}–col</span>
+              <button class="btn btn-sm btn-icon btn-danger" (click)="deleteSection(section)">✕</button>
+            </div>
+
+            <div cdkDropList
+                 [id]="'section-' + section.sectionId"
+                 [cdkDropListData]="getPlacedFieldsForSection(section.sectionId)"
+                 [cdkDropListConnectedTo]="['available-list', 'canvas-list']"
+                 (cdkDropListDropped)="dropOnSection($event, section.sectionId)"
+                 class="section-drop-zone"
+                 [class.cols-2]="section.columns === 2">
+              @for (ff of getPlacedFieldsForSection(section.sectionId); track ff.formFieldId) {
+                <div cdkDrag
+                     class="canvas-field"
+                     [class.selected]="selectedField()?.formFieldId === ff.formFieldId"
+                     [class.span-2]="ff.colSpan === 2 && section.columns === 2"
+                     (click)="selectField(ff)">
+                  <span class="canvas-field-label">{{ ff.labelOverride || ff.fieldId }}</span>
+                  <button class="btn btn-icon remove-btn" (click)="$event.stopPropagation(); removeField(ff)">✕</button>
+                </div>
+              }
+              @empty {
+                <div class="drop-placeholder">Drop fields here</div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Unassigned / general canvas -->
+        <div class="canvas-section canvas-section-default">
+          <div class="canvas-section-header">
+            <span class="section-title">Unassigned Fields</span>
+          </div>
+          <div cdkDropList
+               id="canvas-list"
+               [cdkDropListData]="getUnassignedFields()"
+               [cdkDropListConnectedTo]="['available-list']"
+               (cdkDropListDropped)="dropOnCanvas($event)"
+               class="section-drop-zone">
+            @for (ff of getUnassignedFields(); track ff.formFieldId) {
+              <div cdkDrag
+                   class="canvas-field"
+                   [class.selected]="selectedField()?.formFieldId === ff.formFieldId"
+                   (click)="selectField(ff)">
+                <span class="canvas-field-label">{{ ff.fieldId }}</span>
+                <button class="btn btn-icon remove-btn" (click)="$event.stopPropagation(); removeField(ff)">✕</button>
+              </div>
+            }
+            @empty {
+              <div class="drop-placeholder">Drag fields from the panel →</div>
+            }
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Right: Properties panel -->
+      <aside class="panel panel-properties">
+        @if (selectedField()) {
+          <div class="panel-title">Field Properties</div>
+          <div class="prop-row">
+            <span class="prop-label">Field ID</span>
+            <code class="prop-val">{{ selectedField()!.fieldId }}</code>
+          </div>
+          <div class="prop-row">
+            <span class="prop-label">Display Order</span>
+            <span class="prop-val">{{ selectedField()!.displayOrder }}</span>
+          </div>
+          <div class="prop-row">
+            <span class="prop-label">Col Span</span>
+            <span class="prop-val">{{ selectedField()!.colSpan }}</span>
+          </div>
+
+          <div class="section-divider">Validations</div>
+          <div class="validations-list">
+            @for (v of fieldValidations(selectedField()!.fieldId); track v.validationId) {
+              <div class="validation-item">
+                <span class="v-type">{{ v.ruleType }}</span>
+                @if (v.ruleValue) { <span class="v-val">= {{ v.ruleValue }}</span> }
+                <button class="btn btn-icon btn-danger btn-xs" (click)="deleteValidation(v)">✕</button>
+              </div>
+            }
+          </div>
+          <button class="btn btn-outline btn-sm btn-block" (click)="openAddValidation()">+ Add Validation</button>
+        } @else {
+          <div class="panel-empty">Select a field to edit its properties</div>
+        }
+      </aside>
+
+    </div>
+  } @else {
+    <!-- ── PREVIEW MODE ── -->
+    <div class="preview-wrap">
+      <div class="preview-card">
+        <plat-dynamic-form
+          [formId]="formId"
+          submitLabel="Test Submit"
+          (submitted)="previewMode.set(false)">
+        </plat-dynamic-form>
+      </div>
+    </div>
+  }
+
+</div>
+
+<!-- Section dialog -->
+@if (sectionDialogOpen()) {
+  <div class="dialog-overlay" (click)="closeSectionDialog()">
+    <div class="dialog" (click)="$event.stopPropagation()">
+      <div class="dialog-header"><h2>Add Section</h2><button class="btn btn-icon" (click)="closeSectionDialog()">✕</button></div>
+      <form [formGroup]="sectionForm" (ngSubmit)="saveSection()" class="dialog-body">
+        <div class="field-group">
+          <label>Title <span class="required">*</span></label>
+          <input formControlName="title" placeholder="e.g. Applicant Info" class="input" />
+        </div>
+        <div class="field-group">
+          <label>Columns</label>
+          <select formControlName="columns" class="input">
+            <option value="1">1 column</option>
+            <option value="2">2 columns</option>
+          </select>
+        </div>
+        <div class="dialog-footer">
+          <button type="button" class="btn btn-outline" (click)="closeSectionDialog()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="sectionForm.invalid">Add Section</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+
+<!-- Validation dialog -->
+@if (validationDialogOpen()) {
+  <div class="dialog-overlay" (click)="closeValidationDialog()">
+    <div class="dialog" (click)="$event.stopPropagation()">
+      <div class="dialog-header"><h2>Add Validation</h2><button class="btn btn-icon" (click)="closeValidationDialog()">✕</button></div>
+      <form [formGroup]="validationForm" (ngSubmit)="saveValidation()" class="dialog-body">
+        <div class="field-group">
+          <label>Rule Type</label>
+          <select formControlName="ruleType" class="input">
+            <option value="required">Required</option>
+            <option value="min">Min (number)</option>
+            <option value="max">Max (number)</option>
+            <option value="min_length">Min Length</option>
+            <option value="max_length">Max Length</option>
+            <option value="regex">Regex</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Rule Value</label>
+          <input formControlName="ruleValue" placeholder="e.g. 2 for min_length" class="input" />
+        </div>
+        <div class="field-group">
+          <label>Error Message <span class="required">*</span></label>
+          <input formControlName="errorMessage" placeholder="e.g. Minimum 2 characters required" class="input" />
+        </div>
+        <div class="dialog-footer">
+          <button type="button" class="btn btn-outline" (click)="closeValidationDialog()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="validationForm.invalid">Add Rule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

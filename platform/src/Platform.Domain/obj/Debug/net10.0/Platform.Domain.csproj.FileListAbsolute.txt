@@ -1,0 +1,11 @@
+D:\Projects\DSL\platform\src\Platform.Domain\bin\Debug\net10.0\Platform.Domain.deps.json
+D:\Projects\DSL\platform\src\Platform.Domain\bin\Debug\net10.0\Platform.Domain.dll
+D:\Projects\DSL\platform\src\Platform.Domain\bin\Debug\net10.0\Platform.Domain.pdb
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.AssemblyInfoInputs.cache
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.AssemblyInfo.cs
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.csproj.CoreCompileInputs.cache
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.dll
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\refint\Platform.Domain.dll
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\Platform.Domain.pdb
+D:\Projects\DSL\platform\src\Platform.Domain\obj\Debug\net10.0\ref\Platform.Domain.dll

@@ -1,0 +1,11 @@
+D:\Projects\DSL\platform\src\Platform.Etl\bin\Debug\net10.0\Platform.Etl.deps.json
+D:\Projects\DSL\platform\src\Platform.Etl\bin\Debug\net10.0\Platform.Etl.dll
+D:\Projects\DSL\platform\src\Platform.Etl\bin\Debug\net10.0\Platform.Etl.pdb
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.AssemblyInfoInputs.cache
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.AssemblyInfo.cs
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.csproj.CoreCompileInputs.cache
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.dll
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\refint\Platform.Etl.dll
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\Platform.Etl.pdb
+D:\Projects\DSL\platform\src\Platform.Etl\obj\Debug\net10.0\ref\Platform.Etl.dll
