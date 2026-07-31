@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '' // Relative URL when served from same origin as API
+  apiUrl: (typeof window !== 'undefined' && (window as any).__env?.apiUrl) || 'https://platform-api.onrender.com'
 };

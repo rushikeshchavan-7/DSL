@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/studio/browser",
+  "buildCommand": "cd studio && npm install && npm run build",
+  "outputDirectory": "studio/dist/studio/browser",
   "cleanUrls": true,
   "rewrites": [
     {
