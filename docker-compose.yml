@@ -21,7 +21,7 @@ services:
 
   api:
     build:
-      context: ./platform
+      context: .
       dockerfile: Dockerfile
     container_name: platform_api
     restart: unless-stopped
