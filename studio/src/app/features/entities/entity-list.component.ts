@@ -21,7 +21,17 @@ import { MetaEntity } from '../../models/api.models';
       </div>
 
       @if (loading()) {
-        <div class="loading-spinner">Loading…</div>
+        <div class="loading-spinner">
+          <p>Loading entities…</p>
+          <span class="hint">(If the backend is spinning up on Render free tier, this may take 15–30 seconds on first load)</span>
+        </div>
+      } @else if (errorMsg()) {
+        <div class="empty-state">
+          <span class="empty-icon">⚠️</span>
+          <h3>Backend API Connecting…</h3>
+          <p>{{ errorMsg() }}</p>
+          <button class="btn btn-primary" (click)="loadEntities()">Retry Connection</button>
+        </div>
       } @else if (entities().length === 0) {
         <div class="empty-state">
           <span class="empty-icon">🗂️</span>
@@ -107,6 +117,7 @@ export class EntityListComponent implements OnInit {
 
   entities = signal<MetaEntity[]>([]);
   loading = signal(true);
+  errorMsg = signal<string | null>(null);
   saving = signal(false);
   dialogOpen = signal(false);
   editingEntity = signal<MetaEntity | null>(null);
@@ -123,9 +134,14 @@ export class EntityListComponent implements OnInit {
 
   loadEntities(): void {
     this.loading.set(true);
+    this.errorMsg.set(null);
     this.api.listEntities().subscribe({
       next: (data) => { this.entities.set(data); this.loading.set(false); },
-      error: () => this.loading.set(false)
+      error: (err) => {
+        console.error('Failed to load entities:', err);
+        this.errorMsg.set('Could not reach backend API. The free server on Render may still be waking up.');
+        this.loading.set(false);
+      }
     });
   }
 

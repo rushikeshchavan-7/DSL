@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { MetaTenant } from '../models/api.models';
 
 const TENANT_STORAGE_KEY = 'platform_active_tenant';
+const DEFAULT_TENANT_ID = '00000000-0000-0000-0000-000000000001';
 
 /**
  * Holds the active tenant for the Studio session.
@@ -19,7 +20,7 @@ export class TenantService {
   }
 
   get tenantId(): string {
-    return this._tenant$.value?.tenantId ?? '';
+    return this._tenant$.value?.tenantId ?? DEFAULT_TENANT_ID;
   }
 
   setTenant(tenant: MetaTenant): void {
