@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "paths": {
       "runtime-lib": [
+        "./projects/runtime-lib/src/public-api.ts",
         "./dist/runtime-lib"
       ]
     },
